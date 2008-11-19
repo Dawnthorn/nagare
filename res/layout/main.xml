@@ -19,9 +19,14 @@
 	<ImageButton android:id="@+id/play" 
 	  style="@android:style/MediaButton.Play"
 	  android:layout_below="@id/url_editor" />
-	<TextView android:id="@+id/output"
+	<TextView android:id="@+id/position"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/play"
+		android:text=""/>				
+	<TextView android:id="@+id/output"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/position"
 		android:text=""/>		
 </RelativeLayout>

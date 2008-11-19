@@ -20,6 +20,7 @@ import android.widget.TextView;
 public class Nagare extends Activity implements OnClickListener 
 {
 	public TextView m_output; 
+	public TextView m_position;
 	public EditText m_url_editor;
 	public TextView m_alert; 
 	public Context m_context;
@@ -82,6 +83,7 @@ public class Nagare extends Activity implements OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         m_output = (TextView) findViewById(R.id.output);
+        m_position = (TextView) findViewById(R.id.position);
         m_url_editor = (EditText) findViewById(R.id.url_editor);
         m_alert = (TextView) findViewById(R.id.alert);
         m_output = (TextView) findViewById(R.id.output);
@@ -92,6 +94,27 @@ public class Nagare extends Activity implements OnClickListener
         m_context = getApplicationContext();
         bindService(new Intent(m_context, NagareService.class), m_nagare_service_connection, Context.BIND_AUTO_CREATE);
         m_run_refresh.run();
+        Intent intent = getIntent();
+        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))
+         {
+        	PlayListFile play_list_file = PlayListFactory.create(intent.getType(), intent.getData());
+        	if (play_list_file == null)
+        	{
+        		m_output.setText("Not sure what to do with: " + intent.getAction() + ":" +  intent.getDataString() + ":" + intent.getType());
+        	}
+        	else
+        	{
+        		play_list_file.parse();
+        		if (play_list_file.errors() != "")
+        		{
+        			m_output.setText(play_list_file.errors());
+        		}
+        		else
+        		{
+        			m_url_editor.setText(play_list_file.play_list().m_entries.getFirst().m_url_string);
+        		}
+        	}
+         }
     }
     
     public void refresh()
@@ -111,7 +134,7 @@ public class Nagare extends Activity implements OnClickListener
     		{
     			m_play_button.setImageResource(android.R.drawable.ic_media_pause);
     		}
-			m_output.setText(String.valueOf(m_nagare_service.position()));
+			m_position.setText(String.valueOf(m_nagare_service.position()));
 			String errors = m_nagare_service.errors();
 			if (errors != "")
 			{

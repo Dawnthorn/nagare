@@ -24,7 +24,7 @@ public class ShoutcastFile
 	File m_file;
 	File m_nagare_dir;
 	
-	public static final int BUFFER_BEFORE_PLAY = 16384;
+
 
 	
 	public ShoutcastFile(Context context, URLConnection connection)
@@ -52,6 +52,11 @@ public class ShoutcastFile
 	public String errors()
 	{
 		return m_errors;
+	}
+	
+	public String file_path()
+	{
+		return m_file.getAbsolutePath();
 	}
 	
 	public void download(DownloadThread download_thread, InputStream input)
