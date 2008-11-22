@@ -28,7 +28,7 @@ public class NagareService extends Service implements OnCompletionListener
 	public static final int PLAYING = 1;
 	public static final int BUFFERING = 2;
 	public MediaScannerConnection m_scanner = null;
-	public static final int BUFFER_BEFORE_PLAY = 16384;
+	public static final int BUFFER_BEFORE_PLAY = 65536;
 	
 	private final Runnable m_run_buffer = new Runnable()
 	{
@@ -70,8 +70,23 @@ public class NagareService extends Service implements OnCompletionListener
 	{
 		if (m_download_thread == null || m_download_thread.m_shoutcast_file == null)
 		{
-			return 1000;
+			if (m_state == BUFFERING)
+			{
+				return 1000;
+			}
+			else
+			{
+				stop();
+				return 0;
+			}
 		}
+		
+		if (m_download_thread.m_shoutcast_file.m_done)
+		{
+			stop();
+			return 0;
+		}
+		
 		if (m_download_thread.m_shoutcast_file.m_current_write_pos - m_current_position > BUFFER_BEFORE_PLAY)
 		{
 			try
@@ -92,12 +107,14 @@ public class NagareService extends Service implements OnCompletionListener
 		}
 		else
 		{
+			m_state = BUFFERING;
 			return 1000;
 		}
 	}
 	
 	public void download(String url_string)
 	{
+		m_errors = "";
 		try
 		{
 			m_url = new URL(url_string);
@@ -161,7 +178,6 @@ public class NagareService extends Service implements OnCompletionListener
 	public void onCompletion(MediaPlayer mp)
 	{
 		m_current_position = mp.getCurrentPosition();
-		m_state = BUFFERING;
 		m_run_buffer.run();
 	}
 	
@@ -205,13 +221,18 @@ public class NagareService extends Service implements OnCompletionListener
 	
 	public void stop()
 	{
-		if (m_download_thread == null)
+		if (m_download_thread != null)
 		{
-			return;
+			m_download_thread.done();
+			m_download_thread = null;
 		}
-		m_download_thread.done();
-		m_download_thread = null;
-		m_media_player.stop();
+		if (m_media_player != null)
+		{
+			if (m_state == PLAYING)
+			{
+				m_media_player.stop();
+			}
+		}
 		m_state = STOPPED;
 	}
 

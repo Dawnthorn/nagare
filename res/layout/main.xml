@@ -23,10 +23,15 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/play"
-		android:text=""/>				
-	<TextView android:id="@+id/output"
+		android:text=""/>
+	<ScrollView android:id="@+id/output_scroll_view"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/position"
-		android:text=""/>		
+		android:layout_height="80sp"
+		android:layout_alignParentBottom="true">						
+		<TextView android:id="@+id/output"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:singleLine="false"
+			android:text=""/>
+	</ScrollView>		
 </RelativeLayout>

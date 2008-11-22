@@ -24,9 +24,6 @@ public class ShoutcastFile
 	File m_file;
 	File m_nagare_dir;
 	
-
-
-	
 	public ShoutcastFile(Context context, URLConnection connection)
 	{
 		m_context = context;
@@ -76,6 +73,7 @@ public class ShoutcastFile
 		{
 			m_errors += e.toString() + "\n";
 		}
+		done();
 	}
 	
 	public void rebuffer()

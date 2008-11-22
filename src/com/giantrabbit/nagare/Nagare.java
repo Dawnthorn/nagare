@@ -56,7 +56,6 @@ public class Nagare extends Activity implements OnClickListener
 	{
 		if (m_nagare_service == null)
 		{
-
 			return;
 		}
 		try
@@ -138,7 +137,7 @@ public class Nagare extends Activity implements OnClickListener
 			String errors = m_nagare_service.errors();
 			if (errors != "")
 			{
-				m_output.setText(String.valueOf(m_nagare_service.position()) + "\n" + errors);
+				m_output.setText(errors);
 			}
 		} 
     	catch (RemoteException e)

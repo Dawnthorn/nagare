@@ -16,7 +16,8 @@ public final class R {
     public static final class id {
         public static final int alert=0x7f050000;
         public static final int label=0x7f050001;
-        public static final int output=0x7f050005;
+        public static final int output=0x7f050006;
+        public static final int output_scroll_view=0x7f050005;
         public static final int play=0x7f050003;
         public static final int position=0x7f050004;
         public static final int url_editor=0x7f050002;

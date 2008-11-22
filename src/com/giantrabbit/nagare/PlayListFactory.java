@@ -10,6 +10,10 @@ public class PlayListFactory
 		{
 			return new PlsFile(uri);
 		}
+		if (mime_type.equals("application/pls"))
+		{
+			return new PlsFile(uri);
+		}
 		if (mime_type.equals("audio/x-mpegurl"))
 		{
 			return new M3UFile(uri);
