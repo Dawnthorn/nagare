@@ -38,7 +38,8 @@ public class ShoutcastFile
 	public void build_file_name()
 	{
 		Calendar now = new GregorianCalendar();
-		m_file_name = m_shoutcast_name.replace(" ", "_") + "-" + now.get(Calendar.YEAR) + now.get(Calendar.MONTH) + now.get(Calendar.DAY_OF_MONTH) + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE) + now.get(Calendar.SECOND) + ".mp3";
+		m_file_name = m_shoutcast_name.replaceAll("[\\/:*?\"<>|]", "_");
+		m_file_name += "-" + now.get(Calendar.YEAR) + now.get(Calendar.MONTH) + now.get(Calendar.DAY_OF_MONTH) + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE) + now.get(Calendar.SECOND) + ".mp3";
 		m_nagare_dir = new File(Environment.getExternalStorageDirectory() + "/Nagare");
 		m_nagare_dir.mkdirs();
 		m_file = new File(m_nagare_dir.getAbsolutePath(), m_file_name);
@@ -48,7 +49,7 @@ public class ShoutcastFile
 	{
 		m_done = true;
 	}
-	
+
 	public String errors()
 	{
 		return m_errors;
